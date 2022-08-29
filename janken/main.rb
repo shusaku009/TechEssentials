@@ -1,6 +1,7 @@
 @win = 0
 @lose = 0
 
+#じゃんけんの勝負回数を選択
 def janken_count
   puts "何本勝負？(press 1 or 3 or 5)"
   janken_count = gets.to_i
@@ -18,6 +19,7 @@ def janken_count
   end
 end
 
+#じゃんけんの回数をカウント
 def match
   janken_count
 
@@ -32,6 +34,7 @@ def match
   result
 end
 
+#入力の制限
 def hand_validation
   if @player_hand != "g" && @player_hand != "c" && @player_hand != "p"
     puts "g,c,pの中から選択してください"
@@ -41,6 +44,7 @@ def hand_validation
   end
 end
 
+#じゃんけんの勝ち負けを判定
 def janken_game
   hand = {"g"=>"グー","c"=>"チョキ","p"=>"パー"}
   program_hand = hand.keys.sample
@@ -61,6 +65,7 @@ def janken_game
   end
 end
 
+#じゃんけんの結果を表示
 def result
   puts "結果"
   if  @win > @lose
