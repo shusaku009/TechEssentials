@@ -1,152 +1,78 @@
-# def janken
+@win = 0
+@lose = 0
 
-# end
+#じゃんけんの勝負回数を選択
+def janken_count
+  puts "何本勝負？(press 1 or 3 or 5)"
+  janken_count = gets.to_i
+  @janken_count = janken_count
 
-# if player_hand == program_hand
-#   puts "あいこで"
-#   return true
-# elsif(player_hand == 0 && program_hand == 1)||(player_hand == 1 && program_hand == 2)||(player_hand == 2 && program_hand == 0)
-#   puts "あなたの勝ちです"
-#   return false
-
-# else
-#   puts "あなたの負けです"
-#   return false
-# end
-
-
-# puts "最初はグーじゃんけん・・・・"
-
-# def janken
-#   puts "[0]グー\n[1]チョキ\n[2]パー"
-
-#   player_hand = gets.to_i
-#   program_hand = rand(3)
-
-#   jankens = ["グー", "チョキ","パー"]
-#   puts "あなたの手:#{jankens[player_hand]}, 相手の手:#{jankens[program_hand]}"
-
-#   if player_hand == program_hand
-#     puts "あいこで"
-#     return true
-#   elsif(player_hand == 0 && program_hand == 1)||(player_hand == 1 && program_hand == 2)||(player_hand == 2 && program_hand == 0)
-#     puts "あなたの勝ちです"
-#     return false
-
-#   else
-#     puts "あなたの負けです"
-#     return false
-#   end
-# end
-
-# puts "最初はグーじゃんけん・・・・"
-
-# puts "何本勝負？(press 1 or 3 or 5)"
-
-# puts "3本勝負を選びました"
-
-# def janken
-#   puts "[0]グー\n[1]チョキ\n[2]パー"
-
-#   player_hand = gets.to_i
-#   program_hand = rand(3)
-
-#   jankens = ["グー", "チョキ","パー"]
-#   puts "あなたの手:#{jankens[player_hand]}, 相手の手:#{jankens[program_hand]}"
-
-#   if player_hand == program_hand
-#     puts "あいこで"
-#     return true
-#   elsif(player_hand == 0 && program_hand == 1)||(player_hand == 1 && program_hand == 2)||(player_hand == 2 && program_hand == 0)
-#     puts "あなたの勝ちです"
-#     return false
-
-#   else
-#     puts "あなたの負けです"
-#     return false
-#   end
-# end
-
-# next_game = true
-
-# while next_game
-#   next_game = janken
-# end
-
-def janken_hand(cpu_hand, player_hand)
-  if cpu_hand == "g"
-    puts "CPU...グー"
-  elsif cpu_hand == "c"
-    puts "CPU...チョキ"
-  elsif cpu_hand == "p"
-    puts "CPU...パー"
+  if janken_count == 1
+    puts "#{janken_count}本を選びました"
+  elsif janken_count == 3
+    puts "#{janken_count}本を選びました"
+  elsif janken_count == 5
+    puts "#{janken_count}本を選びました"
   else
-  end
-
-  if player_hand == "g"
-    puts "あなた...グー"
-  elsif player_hand == "c"
-    puts "あなた...チョキ"
-  elsif player_hand == "p"
-    puts "あなた...パー"
-  else
+    puts "1,3,5の中から選択してください"
+    set_janken_count
   end
 end
 
-def janken(player_hand, cpu_hand, time)
-  if
-    player_hand == cpu_hand
-    puts "あいこで"
-    return true
-  elsif
-    player_hand == "g" && cpu_hand == "c"
-    puts "勝ち"
-  elsif player_hand == "g" && cpu_hand == "p"
-    puts "負け"
-  elsif player_hand == "p" && cpu_hand == "g"
-    puts "勝ち"
-  elsif player_hand == "p" && cpu_hand == "c"
-    puts "負け"
-  elsif player_hand == "c" && cpu_hand == "p"
-    puts "勝ち"
-  elsif player_hand == "c" && cpu_hand == "g"
-    puts "負け"
-  else
-    puts player_hand == ""
+#じゃんけんの回数をカウント
+def match
+  janken_count
+
+  @janken_count.times do |x|
+    puts "#{x + 1}本目"
+    puts "じゃんけん…(press g or c or p)"
+    player_hand = gets.chomp
+    @player_hand = player_hand
+    hand_validation
+    janken_game
+  end
+  result
+end
+
+#入力の制限
+def hand_validation
+  if @player_hand != "g" && @player_hand != "c" && @player_hand != "p"
+    puts "g,c,pの中から選択してください"
+    player_hand = gets.chomp
+    @player_hand = player_hand
+    hand_validation
   end
 end
 
-puts "何本勝負？(press 1 pr 3 or 5)"
-time = gets.to_i
-puts "#{time}本勝負を選びました"
+#じゃんけんの勝ち負けを判定
+def janken_game
+  hand = {"g"=>"グー","c"=>"チョキ","p"=>"パー"}
+  program_hand = hand.keys.sample
 
-(1..time).each do |x|
+  puts "CPU…#{hand[program_hand]},\nあなた…#{hand[@player_hand]}"
 
-  cpu_hand = ["g", "c", "p"].sample
-  puts "じゃんけん...(press g or p or c)"
-  player_hand = gets.chomp
-  player_hand = player_hand.to_s
-
-  puts janken_hand(cpu_hand, player_hand)
+  if @player_hand == program_hand
+    puts "あいこで…(press g or c or p)"
+    janken_game
+  elsif(@player_hand == hand.keys[0] && program_hand == hand.keys[1])||(@player_hand == hand.keys[1] && program_hand == hand.keys[2])||(@player_hand == hand.keys[2] && program_hand == hand.keys[0])
+    puts "勝ち！"
+    @win += 1
+    puts "#{@win}勝#{@lose}敗"
+  else
+    puts "負け！"
+    @lose += 1
+    puts "#{@win}勝#{@lose}敗"
+  end
 end
 
-next_game = true
-
-# while next_game
-#   next_game = janken
-# end
-
-puts ""
-
-def janken()
-  
+#じゃんけんの結果を表示
+def result
+  puts "結果"
+  if  @win > @lose
+    puts "#{@win}勝#{@lose}敗であなたの勝ち"
+  else
+    puts "#{@win}勝#{@lose}敗であなたの負け"
+  end
 end
 
-
-puts "何本勝負？(press 1 pr 3 or 5)"
-time = gets.to_i
-puts "#{time}本勝負を選びました"
-
-def janken(player_hand,cpu_hand,time)
-  
-end
+match
