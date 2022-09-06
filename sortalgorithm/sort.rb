@@ -11,7 +11,7 @@ def bubble_sort(ary)
       end 
     end
   end
-  return  ary
+  ary
 end
 
 p bubble_sort([10, 8, 3, 5, 2, 4, 11, 18, 20, 33])
