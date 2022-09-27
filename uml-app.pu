@@ -1,0 +1,39 @@
+@startuml
+
+entity Users {
+  user_id(pk)
+  --
+  name
+  email
+  password_digest
+  admin
+  created_at
+  updated_at
+}
+
+entity Questions {
+  question_id(pk)
+  --
+  name
+  body
+  user_id(fk)
+  solved
+  created_at
+  updated_at
+}
+
+entity Answers {
+  answer_id(pk)
+  --
+  body
+  user_id(fk)
+  question_id(fk)
+  created_at
+  updated_at
+}
+
+Users ||--|{ Questions
+Questions ||--|{ Answers
+Users ||--|{ Answers
+
+@enduml
